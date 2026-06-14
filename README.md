@@ -24,6 +24,18 @@ npm run build
 - `/faq/` FAQ
 - `/about/` editorial page
 
+## Deploy to Cloudflare Pages
+
+Cloudflare Pages settings:
+
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Node version: 22+ (Astro supports the current project setup)
+
+Recommended environment variable:
+
+- `SITE_URL=https://your-pages-domain.pages.dev`
+
 ## Notes
 
 - Set `SITE_URL` in production for canonical URLs and sitemap links.
