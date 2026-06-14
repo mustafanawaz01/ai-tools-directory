@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found" description="The page you tried to open does not exist." canonicalPath="/404/">
+  <section class="hero">
+    <div class="eyebrow">404</div>
+    <h1>That page does not exist.</h1>
+    <p style="margin-top:1rem; max-width:60ch;">Use the navigation to get back to the directory, or start from the homepage.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/">Go home</a>
+      <a class="btn btn-secondary" href="/tools/">Browse tools</a>
+    </div>
+  </section>
+</BaseLayout>

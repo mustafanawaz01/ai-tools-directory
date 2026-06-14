@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { categories, getCategoryTools, comparisons } from '../../data/site';
+
+export function getStaticPaths() {
+  return categories.map((category) => ({ params: { slug: category.slug }, props: { category } }));
+}
+
+const { category } = Astro.props;
+const categoryTools = getCategoryTools(category.slug);
+const relatedComparisons = comparisons.filter((comparison) =>
+  comparison.toolSlugs.some((slug) => categoryTools.some((tool) => tool.slug === slug)),
+);
+---
+
+<BaseLayout title={category.seoTitle} description={category.seoDescription} canonicalPath={`/categories/${category.slug}/`}>
+  <section class="hero">
+    <div class="breadcrumbs"><a href="/">Home</a> / <a href="/categories/">Categories</a> / {category.name}</div>
+    <div class="eyebrow">{category.audience}</div>
+    <h1>{category.name} AI tools</h1>
+    <p style="margin-top:1rem; max-width:70ch;">{category.description}</p>
+  </section>
+
+  <section class="section content-grid">
+    <div class="prose">
+      <div class="panel">
+        <h2>What people want from this category</h2>
+        <p style="margin-top:0.6rem;">Visitors are usually looking for a fast shortlist, clear use cases, and a trustworthy way to compare options without reading a vendor sales page.</p>
+      </div>
+
+      <div class="section-header" style="margin-top:0.5rem;">
+        <div>
+          <h2>Tools in this category</h2>
+          <p>All tool pages follow the same template for easy scanning and consistent SEO.</p>
+        </div>
+      </div>
+      <div class="cards">
+        {categoryTools.map((tool) => (
+          <a class="card" href={`/tools/${tool.slug}/`}>
+            <h3>{tool.name}</h3>
+            <p>{tool.tagline}</p>
+            <div class="card-meta">{tool.bestFor}</div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <aside class="stack">
+      <div class="panel sidebar-section">
+        <h3>SEO page ideas</h3>
+        <div class="divider"></div>
+        <div class="tag-row">
+          <span class="tag">best {category.slug} tools</span>
+          <span class="tag">{category.name.toLowerCase()} software</span>
+          <span class="tag">top AI tools</span>
+        </div>
+      </div>
+      <div class="panel sidebar-section">
+        <h3>Related comparisons</h3>
+        <div class="divider"></div>
+        <div class="list">
+          {relatedComparisons.map((comparison) => (
+            <a class="list-item" href={`/best/${comparison.slug}/`}>
+              <div>
+                <strong>{comparison.title}</strong>
+                <small>{comparison.description}</small>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </aside>
+  </section>
+</BaseLayout>

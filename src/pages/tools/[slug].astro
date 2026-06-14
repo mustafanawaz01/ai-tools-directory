@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { tools, categories, comparisons } from '../../data/site';
+
+export function getStaticPaths() {
+  return tools.map((tool) => ({ params: { slug: tool.slug }, props: { tool } }));
+}
+
+const { tool } = Astro.props;
+const toolCategories = categories.filter((category) => tool.categories.includes(category.slug));
+const toolComparisons = comparisons.filter((comparison) => comparison.toolSlugs.includes(tool.slug));
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: tool.name,
+  description: tool.description,
+  applicationCategory: toolCategories.map((category) => category.name).join(', '),
+  operatingSystem: 'Web',
+  url: tool.website,
+};
+---
+
+<BaseLayout
+  title={`${tool.name} AI Tool`}
+  description={`${tool.tagline} ${tool.description}`}
+  canonicalPath={`/tools/${tool.slug}/`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+  <section class="hero">
+    <div class="breadcrumbs"><a href="/">Home</a> / <a href="/tools/">Tools</a> / {tool.name}</div>
+    <div class="eyebrow">{tool.tagline}</div>
+    <h1>{tool.name}</h1>
+    <p style="margin-top:1rem; max-width:70ch;">{tool.description}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href={tool.website} rel="noreferrer noopener" target="_blank">Visit website</a>
+      <a class="btn btn-secondary" href={`/best/${toolComparisons[0]?.slug ?? 'coding'}/`}>See a comparison</a>
+    </div>
+  </section>
+
+  <section class="content-grid section">
+    <div class="prose">
+      <div class="panel">
+        <h2>Why it stands out</h2>
+        <p style="margin-top:0.6rem;">{tool.bestFor}</p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Pricing</h3>
+          <p>{tool.pricing}</p>
+        </div>
+        <div class="card">
+          <h3>Categories</h3>
+          <ul class="pill-list">{toolCategories.map((category) => <li class="pill">{category.name}</li>)}</ul>
+        </div>
+        <div class="card">
+          <h3>Website</h3>
+          <p><a href={tool.website} rel="noreferrer noopener" target="_blank">{tool.website}</a></p>
+        </div>
+      </div>
+
+      <div class="section-header" style="margin-top:0.5rem;">
+        <div>
+          <h2>Features</h2>
+          <p>These are the practical reasons someone would choose this tool.</p>
+        </div>
+      </div>
+      <div class="cards">
+        {tool.features.map((feature) => (
+          <div class="card"><p>{feature}</p></div>
+        ))}
+      </div>
+
+      <div class="section-header" style="margin-top:0.5rem;">
+        <div>
+          <h2>Pros and caveats</h2>
+        </div>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <h3>Pros</h3>
+          <ul>{tool.pros.map((item) => <li>{item}</li>)}</ul>
+        </div>
+        <div class="card">
+          <h3>Cons</h3>
+          <ul>{tool.cons.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+
+    <aside class="stack">
+      <div class="panel sidebar-section">
+        <h3>Best for</h3>
+        <p>{tool.bestFor}</p>
+      </div>
+      <div class="panel sidebar-section">
+        <h3>Related categories</h3>
+        <div class="divider"></div>
+        <div class="list">
+          {toolCategories.map((category) => (
+            <a class="list-item" href={`/categories/${category.slug}/`}>
+              <div>
+                <strong>{category.name}</strong>
+                <small>{category.description}</small>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div class="panel sidebar-section">
+        <h3>Related comparisons</h3>
+        <div class="divider"></div>
+        <div class="list">
+          {toolComparisons.map((comparison) => (
+            <a class="list-item" href={`/best/${comparison.slug}/`}>
+              <div>
+                <strong>{comparison.title}</strong>
+                <small>{comparison.description}</small>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </aside>
+  </section>
+</BaseLayout>

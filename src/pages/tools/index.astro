@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { tools } from '../../data/site';
+---
+
+<BaseLayout
+  title="AI Tools"
+  description="Explore every tool in the directory, from AI assistants and editors to image generators, research tools, and automation platforms."
+  canonicalPath="/tools/"
+>
+  <section class="hero">
+    <div class="eyebrow">Tools</div>
+    <h1>Every tool page in one place.</h1>
+    <p style="margin-top:1rem; max-width:65ch;">Each listing links to a full page with features, pricing notes, pros, and caveats so visitors can compare quickly.</p>
+  </section>
+
+  <section class="section">
+    <div class="cards">
+      {tools.map((tool) => (
+        <a class="card" href={`/tools/${tool.slug}/`}>
+          <h3>{tool.name}</h3>
+          <p>{tool.tagline}</p>
+          <div class="card-meta">{tool.pricing}</div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

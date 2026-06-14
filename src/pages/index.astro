@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { categories, comparisons, siteStats, tools } from '../data/site';
+
+const featuredCategories = categories.slice(0, 6);
+const featuredTools = tools.slice(0, 6);
+const featuredComparisons = comparisons.slice(0, 5);
+---
+
+<BaseLayout
+  title="AI Tools Directory"
+  description="A publishable, SEO-friendly directory of the best AI tools for writing, coding, research, image generation, automation, and more."
+  canonicalPath="/"
+>
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow">Practical AI tools, clearly organized</div>
+        <h1>Find the right AI tool without the hype.</h1>
+        <p>
+          AI Tools Directory is a clean, search-friendly reference site for people who want to quickly
+          discover, compare, and choose the best AI products for real tasks.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/categories/">Browse categories</a>
+          <a class="btn btn-secondary" href="/best/">See best-of comparisons</a>
+        </div>
+      </div>
+      <div class="panel grid stats">
+        {siteStats.map((stat) => (
+          <div class="stat">
+            <strong>{stat.value}</strong>
+            <span class="muted">{stat.label}</span>
+          </div>
+        ))}
+        <div class="callout" style="grid-column: 1 / -1;">
+          <h3>Built for SEO and easy upkeep</h3>
+          <p>Static pages, clear categories, comparison pages, and consistent tool templates make the site easy to expand over time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <h2>Core categories</h2>
+        <p>Start from the user’s task, not the vendor’s marketing page.</p>
+      </div>
+      <a class="btn btn-secondary" href="/categories/">View all categories</a>
+    </div>
+    <div class="cards">
+      {featuredCategories.map((category) => (
+        <a class="card" href={`/categories/${category.slug}/`}>
+          <h3>{category.name}</h3>
+          <p>{category.description}</p>
+          <div class="card-meta">{category.audience}</div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <h2>Featured tools</h2>
+        <p>Use these as your anchor pages before you expand the directory.</p>
+      </div>
+      <a class="btn btn-secondary" href="/tools/">View all tools</a>
+    </div>
+    <div class="cards">
+      {featuredTools.map((tool) => (
+        <a class="card" href={`/tools/${tool.slug}/`}>
+          <h3>{tool.name}</h3>
+          <p>{tool.tagline}</p>
+          <div class="card-meta">Best for: {tool.bestFor}</div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <h2>Best-of comparison pages</h2>
+        <p>These pages target high-intent search queries and are easy to keep fresh.</p>
+      </div>
+      <a class="btn btn-secondary" href="/best/">View all comparisons</a>
+    </div>
+    <div class="list">
+      {featuredComparisons.map((comparison) => (
+        <a class="list-item" href={`/best/${comparison.slug}/`}>
+          <div>
+            <strong>{comparison.title}</strong>
+            <small>{comparison.description}</small>
+          </div>
+          <span class="tag">Read</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section content-grid">
+    <div class="prose">
+      <div>
+        <div class="eyebrow">Why this works</div>
+        <h2>Simple pages that search engines can understand.</h2>
+      </div>
+      <p>
+        Each tool page uses the same structure: what it does, who it is for, pricing, features, pros,
+        and caveats. That makes the site easy for users to scan and easy for search engines to index.
+      </p>
+      <p>
+        Once the core directory is live, you can add more pages in batches without redesigning the whole
+        site. That keeps maintenance cheap and the publishing workflow fast.
+      </p>
+    </div>
+    <aside class="stack">
+      <div class="panel">
+        <h3>Launch plan</h3>
+        <div class="divider"></div>
+        <div class="tag-row">
+          <span class="tag">Home</span>
+          <span class="tag">10 categories</span>
+          <span class="tag">27 tools</span>
+          <span class="tag">5 comparisons</span>
+          <span class="tag">FAQ</span>
+          <span class="tag">About</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Best initial focus</h3>
+        <p>Search-intent pages for coding, SEO, startups, image generation, and AI agents.</p>
+      </div>
+    </aside>
+  </section>
+</BaseLayout>

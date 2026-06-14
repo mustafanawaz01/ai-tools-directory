@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="Learn how AI Tools Directory is organized, what it covers, and how the editorial structure works."
+  canonicalPath="/about/"
+>
+  <section class="hero">
+    <div class="eyebrow">About</div>
+    <h1>Built to be useful first.</h1>
+    <p style="margin-top:1rem; max-width:70ch;">The goal of this site is to help people make faster, better decisions about AI tools without wasting time on hype, vague claims, or cluttered directories.</p>
+  </section>
+
+  <section class="section content-grid">
+    <div class="prose">
+      <div class="panel">
+        <h2>Editorial approach</h2>
+        <p style="margin-top:0.6rem;">Pages are structured around real user intent: categories, tools, comparisons, and FAQs. Each page keeps the same template so the site stays easy to expand.</p>
+      </div>
+      <div class="panel">
+        <h2>What makes the directory trustworthy</h2>
+        <ul>
+          <li>Clear page purpose</li>
+          <li>Consistent layout and terminology</li>
+          <li>Practical descriptions instead of marketing copy</li>
+          <li>Shortlists that reflect common search intent</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h2>How it should grow</h2>
+        <p style="margin-top:0.6rem;">Add new tools in batches, expand comparison pages around real search queries, and keep the homepage focused on navigation rather than clutter.</p>
+      </div>
+    </div>
+
+    <aside class="stack">
+      <div class="panel sidebar-section">
+        <h3>Site structure</h3>
+        <div class="divider"></div>
+        <div class="tag-row">
+          <span class="tag">Categories</span>
+          <span class="tag">Tools</span>
+          <span class="tag">Best-of pages</span>
+          <span class="tag">FAQ</span>
+        </div>
+      </div>
+      <div class="panel sidebar-section">
+        <h3>Maintenance rule</h3>
+        <p>Keep content short, accurate, and easy to update so the directory stays useful instead of turning into a stale listing farm.</p>
+      </div>
+    </aside>
+  </section>
+</BaseLayout>

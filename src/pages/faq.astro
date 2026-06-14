@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { faqItems } from '../data/site';
+---
+
+<BaseLayout
+  title="FAQ"
+  description="Answers to common questions about AI tools directories, choosing AI products, SEO, and content maintenance."
+  canonicalPath="/faq/"
+>
+  <section class="hero">
+    <div class="eyebrow">FAQ</div>
+    <h1>Answers that support both users and SEO.</h1>
+    <p style="margin-top:1rem; max-width:70ch;">A good FAQ page adds trust, helps visitors make a decision, and creates extra search-friendly content without making the site feel bloated.</p>
+  </section>
+
+  <section class="section faq">
+    {faqItems.map((item) => (
+      <details>
+        <summary>{item.question}</summary>
+        <p>{item.answer}</p>
+      </details>
+    ))}
+  </section>
+</BaseLayout>

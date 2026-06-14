@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { categories, getCategoryTools } from '../../data/site';
+---
+
+<BaseLayout
+  title="AI Categories"
+  description="Browse AI tools by category: writing, coding, image generation, video, research, agents, productivity, automation, support, and note-taking."
+  canonicalPath="/categories/"
+>
+  <section class="hero">
+    <div class="eyebrow">Categories</div>
+    <h1>Browse AI tools by task.</h1>
+    <p style="margin-top:1rem; max-width:65ch;">Organize the site around what users are trying to do, then link every category to useful tools and related comparison pages.</p>
+  </section>
+
+  <section class="section">
+    <div class="cards">
+      {categories.map((category) => {
+        const count = getCategoryTools(category.slug).length;
+        return (
+          <a class="card" href={`/categories/${category.slug}/`}>
+            <h3>{category.name}</h3>
+            <p>{category.description}</p>
+            <div class="card-meta">{count} tool{count === 1 ? '' : 's'} listed</div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>

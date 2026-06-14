@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { comparisons, getToolsBySlugs } from '../../data/site';
+
+export function getStaticPaths() {
+  return comparisons.map((comparison) => ({ params: { slug: comparison.slug }, props: { comparison } }));
+}
+
+const { comparison } = Astro.props;
+const comparisonTools = getToolsBySlugs(comparison.toolSlugs);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: comparison.title,
+  itemListElement: comparisonTools.map((tool, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: tool.name,
+    url: `/tools/${tool.slug}/`,
+  })),
+};
+---
+
+<BaseLayout title={comparison.seoTitle} description={comparison.seoDescription} canonicalPath={`/best/${comparison.slug}/`}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+  <section class="hero">
+    <div class="breadcrumbs"><a href="/">Home</a> / <a href="/best/">Best of</a> / {comparison.title}</div>
+    <div class="eyebrow">Comparison</div>
+    <h1>{comparison.title}</h1>
+    <p style="margin-top:1rem; max-width:70ch;">{comparison.description}</p>
+  </section>
+
+  <section class="section content-grid">
+    <div class="prose">
+      <div class="panel">
+        <h2>Quick shortlist</h2>
+        <p style="margin-top:0.6rem;">These are the tools most likely to satisfy the search intent behind this page.</p>
+      </div>
+
+      <div class="cards">
+        {comparisonTools.map((tool, index) => (
+          <a class="card" href={`/tools/${tool.slug}/`}>
+            <div class="eyebrow">#{index + 1}</div>
+            <h3>{tool.name}</h3>
+            <p>{tool.tagline}</p>
+            <div class="card-meta">{tool.bestFor}</div>
+          </a>
+        ))}
+      </div>
+
+      <div class="section-header" style="margin-top:0.5rem;">
+        <div>
+          <h2>Comparison table</h2>
+          <p>Useful for readers who want a quick side-by-side view.</p>
+        </div>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>Best for</th>
+            <th>Pricing</th>
+          </tr>
+        </thead>
+        <tbody>
+          {comparisonTools.map((tool) => (
+            <tr>
+              <td><a href={`/tools/${tool.slug}/`}>{tool.name}</a></td>
+              <td>{tool.bestFor}</td>
+              <td>{tool.pricing}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <aside class="stack">
+      <div class="panel sidebar-section">
+        <h3>Search intent</h3>
+        <p>People are usually looking for a fast recommendation, not a broad list of every vendor ever made.</p>
+      </div>
+      <div class="panel sidebar-section">
+        <h3>Use this page for</h3>
+        <div class="divider"></div>
+        <div class="tag-row">
+          <span class="tag">SEO landing page</span>
+          <span class="tag">buyer guide</span>
+          <span class="tag">curated shortlist</span>
+        </div>
+      </div>
+    </aside>
+  </section>
+</BaseLayout>
